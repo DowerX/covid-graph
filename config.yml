@@ -1,0 +1,15 @@
+address: "192.168.23.59:1111"
+jobs:
+  - country: "hungary"
+    status: "confirmed"
+    path: "./static/hu-confirmed.png"
+    title: "Hungary confirmed"
+    line: "confirmed"
+    time: "24h"
+  - country: "hungary"
+    status: "deaths"
+    path: "./static/hu-deaths.png"
+    title: "Hungary deaths"
+    line: "deaths"
+    time: "24h"
+    
