@@ -1,4 +1,4 @@
-address: "192.168.23.59:1111"
+address: ""
 jobs:
   - country: "hungary"
     status: "confirmed"

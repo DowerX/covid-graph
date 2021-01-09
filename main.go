@@ -4,11 +4,14 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"sync"
 	"time"
 )
 
 var configPath string
 var conf config
+
+var wg sync.WaitGroup
 
 func main() {
 	// Load config
@@ -24,14 +27,20 @@ func main() {
 	for _, v := range conf.Jobs {
 		go work(v)
 	}
-	err := generateIndex(conf.Jobs)
-	if err != nil {
-		panic(err)
-	}
-	//Start webserver
-	err = host()
-	if err != nil {
-		panic(err)
+
+	if conf.Address != "" {
+		err := generateIndex(conf.Jobs)
+		if err != nil {
+			panic(err)
+		}
+		//Start webserver
+		err = host()
+		if err != nil {
+			panic(err)
+		}
+	} else {
+		wg.Add(1)
+		wg.Wait()
 	}
 }
 
@@ -56,6 +65,7 @@ func generateIndex(js []job) error {
 }
 
 func work(j job) {
+	defer wg.Done()
 	dur, err := time.ParseDuration(j.Time)
 	if err != nil {
 		panic(err)
